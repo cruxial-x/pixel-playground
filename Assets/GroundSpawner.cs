@@ -16,6 +16,10 @@ public class GroundSpawner : MonoBehaviour
     public int distanceBetweenPlatforms = 0;
     private int lastIndex = 0;
 
+    // Add a reference to the coin prefab and the maximum number of coins per platform
+    public GameObject coinPrefab;
+    public int maxCoinsPerPlatform = 3;
+
     void Start()
     {
         // Store the initial Y position
@@ -72,6 +76,14 @@ public class GroundSpawner : MonoBehaviour
 
         // Increment the index, and reset it if it's out of bounds
         lastIndex = (lastIndex + 1) % groundTiles.Length;
+
+        // Randomly decide whether to spawn a coin on this tile
+        if (Random.Range(0, maxCoinsPerPlatform) < 1)
+        {
+            // Instantiate a coin at this position
+            Vector3Int aboveGridPosition = gridPosition + new Vector3Int(0, 1, 0);
+            Instantiate(coinPrefab, tilemap.GetCellCenterWorld(aboveGridPosition), Quaternion.identity);
+        }
 
         isSpawning = false;
     }

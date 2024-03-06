@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
     private Animator animator;
     public bool isFacingLeft;
+    // public Text coinText;
+    public int coins = 0;
     public GameObject attackHitbox;
     
     // Start is called before the first frame update
@@ -42,8 +45,21 @@ public class PlayerController : MonoBehaviour
         }
         Jump(rb, isGrounded);
         Stomp();
+        // coinText.text = coins.ToString("D2");
     }
-    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Collision detected with " + other.tag);
+        // Check if the player collided with a coin
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            // Destroy the coin
+            Destroy(other.gameObject);
+
+            // Increment the player's score
+            coins++;
+        }
+    }
     void GetInput()
     {
         xAxis = Input.GetAxis("Horizontal");

@@ -6,46 +6,55 @@ using System.Linq;
 
 public class GroundSpawner : MonoBehaviour
 {
-    public Tilemap tilemap; // The tilemap to paint on
-    public Tile[] groundTiles; // The array of tiles to paint
+    public Tilemap tilemap;
+    public Tile[] groundTiles;
     public LayerMask whatIsGround;
-    public float detectionDistance = 1f; // Adjust this value as needed
-    public Vector3Int gridSize = new Vector3Int(1, 1, 0); // Size of the grid cells
+    public float detectionDistance = 1f;
+    public Vector3Int gridSize = new Vector3Int(1, 1, 0);
     public float initialY;
     private bool isSpawning = false;
-    public int distanceBetweenPlatforms = 0;
-    private int lastIndex = 0;
 
-    // Add a reference to the coin prefab and the maximum number of coins per platform
+    // New variables
+    private int platformLength = 0;
+    public int platformSpacing = 3;
+    public int minPlatformHeight = 0;
+    public int maxPlatformHeight = 5;
+    public float coinSpawnChance = 0.5f;
+    public int coinHeightVariance = 2;
+
     public GameObject coinPrefab;
     public int maxCoinsPerPlatform = 3;
 
+    private int lastIndex = 0;
+
     void Start()
     {
-        // Store the initial Y position
         initialY = transform.position.y;
+        platformLength = groundTiles.Length;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Always set the Y position to the initial Y position
         transform.position = new Vector3(transform.position.x, initialY, transform.position.z);
 
         Vector3Int gridPosition = new Vector3Int(Mathf.RoundToInt(transform.position.x / gridSize.x), Mathf.RoundToInt(transform.position.y / gridSize.y), 0);
-        List<Tile> currentTiles = GetTiles(gridPosition, groundTiles.Length);
+        List<Tile> currentTiles = GetTiles(gridPosition, platformLength);
 
-        // Check if the tiles in the range of distanceBetweenPlatforms before the current platform are all empty
-        List<Tile> previousTiles = GetTiles(gridPosition - new Vector3Int(distanceBetweenPlatforms, 0, 0), distanceBetweenPlatforms);
-
-        // Check if the tiles in the range of distanceBetweenPlatforms after the current platform are all empty
-        List<Tile> nextTiles = GetTiles(gridPosition + new Vector3Int(groundTiles.Length, 0, 0), distanceBetweenPlatforms);
+        List<Tile> previousTiles = GetTiles(gridPosition - new Vector3Int(platformSpacing, 0, 0), platformSpacing);
+        List<Tile> nextTiles = GetTiles(gridPosition + new Vector3Int(platformLength, 0, 0), platformSpacing);
 
         if (currentTiles.All(tile => !IsTileInGroundTiles(tile)) && previousTiles.All(tile => tile == null) && nextTiles.All(tile => tile == null) && !isSpawning)
         {
-            foreach (Vector3Int position in Enumerable.Range(0, groundTiles.Length).Select(i => gridPosition + new Vector3Int(i, 0, 0)))
+            int heightVariance = Random.Range(minPlatformHeight, maxPlatformHeight + 1);
+
+            bool isSpaceOccupied = Enumerable.Range(0, platformLength).Any(i => tilemap.HasTile(gridPosition + new Vector3Int(i, 0, 0) + Vector3Int.up) || tilemap.HasTile(gridPosition + new Vector3Int(i, 0, 0) + Vector3Int.down));
+
+            if (!isSpaceOccupied)
             {
-                StartCoroutine(SpawnGround(position));
+                foreach (Vector3Int position in Enumerable.Range(0, platformLength).Select(i => gridPosition + new Vector3Int(i, 0, 0)))
+                {
+                    StartCoroutine(SpawnGround(position, heightVariance));
+                }
             }
         }
     }
@@ -63,28 +72,30 @@ public class GroundSpawner : MonoBehaviour
         return tiles;
     }
 
-    IEnumerator SpawnGround(Vector3Int gridPosition)
+    IEnumerator SpawnGround(Vector3Int gridPosition, int heightVariance)
     {
         isSpawning = true;
-        // Wait for a few frames
         yield return new WaitForSeconds(0.1f);
 
-        // Use the tile at the current index
+        gridPosition.y += heightVariance;
+
         Tile selectedTile = groundTiles[lastIndex];
-        // Paint the tile at the grid position
         tilemap.SetTile(gridPosition, selectedTile);
 
-        // Increment the index, and reset it if it's out of bounds
         lastIndex = (lastIndex + 1) % groundTiles.Length;
 
-        // Randomly decide whether to spawn a coin on this tile
-        if (Random.Range(0, maxCoinsPerPlatform) < 1)
+        if (Random.Range(0f, 1f) < coinSpawnChance)
         {
-            // Instantiate a coin at this position
-            Vector3Int aboveGridPosition = gridPosition + new Vector3Int(0, 1, 0);
-            Instantiate(coinPrefab, tilemap.GetCellCenterWorld(aboveGridPosition), Quaternion.identity);
+            Vector3Int aboveGridPosition = gridPosition + new Vector3Int(0, 1 + Random.Range(0, coinHeightVariance + 1), 0);
+            
+            // Check if there is already a tile at the position
+            if (tilemap.GetTile(aboveGridPosition) == null)
+            {
+                Instantiate(coinPrefab, tilemap.GetCellCenterWorld(aboveGridPosition), Quaternion.identity);
+            }
         }
 
+        yield return new WaitForSeconds(0.1f);
         isSpawning = false;
     }
 

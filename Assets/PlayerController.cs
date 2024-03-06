@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public TMPro.TextMeshProUGUI coinText;
     public int coins = 0;
     public GameObject attackHitbox;
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
     
     // Start is called before the first frame update
     void Start()
@@ -35,14 +37,22 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.10f, whatIsGround);
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
         GetInput();
         Flip();
-        Move(moveSpeed, rb, isGrounded);
+        Move(moveSpeed, rb);
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
         }
-        Jump(rb, isGrounded);
+        Jump(rb);
         Stomp();
         coinText.text = coins.ToString("D2");
     }
@@ -115,10 +125,10 @@ public class PlayerController : MonoBehaviour
     }
 
     // Basic platformer movement
-    public void Move(float moveSpeed, Rigidbody2D rb, bool isGrounded)
+    public void Move(float moveSpeed, Rigidbody2D rb)
     {
         rb.velocity = new Vector2(xAxis * moveSpeed, rb.velocity.y);
-        animator.SetBool("Walking", xAxis != 0 && isGrounded);
+        animator.SetBool("Walking", xAxis != 0 && coyoteTimeCounter > 0);
     }
     public void TakeDamage(int damage)
     {
@@ -167,9 +177,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void Jump(Rigidbody2D rb, bool isGrounded)
+    public void Jump(Rigidbody2D rb)
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && coyoteTimeCounter > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }

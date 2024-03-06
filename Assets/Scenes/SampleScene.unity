@@ -463,7 +463,11 @@ MonoBehaviour:
   detectionDistance: 0.1
   gridSize: {x: 1, y: 1, z: 0}
   initialY: 0
-  distanceBetweenPlatforms: 0
+  platformSpacing: 1
+  minPlatformHeight: 0
+  maxPlatformHeight: 0
+  coinSpawnChance: 0.5
+  coinHeightVariance: 2
   coinPrefab: {fileID: 1649737714326745555, guid: 62d1c8e796b15eb4eae661eb33f7582c, type: 3}
   maxCoinsPerPlatform: 3
 --- !u!61 &378843758
@@ -1185,7 +1189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitStunDuration: 0.2
   hitPoints: 3
-  moveSpeed: 4
+  moveSpeed: 5
   jumpForce: 14
   restoreDelay: 3
   restoreAmount: 1
@@ -1197,6 +1201,7 @@ MonoBehaviour:
   coinText: {fileID: 186299422}
   coins: 0
   attackHitbox: {fileID: 1911868806}
+  coyoteTime: 0.2
 --- !u!61 &959835975
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2881,10 +2886,14 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  detectionDistance: 3
+  detectionDistance: 2
   gridSize: {x: 1, y: 1, z: 0}
   initialY: 0
-  distanceBetweenPlatforms: 5
+  platformSpacing: 3
+  minPlatformHeight: 0
+  maxPlatformHeight: 1
+  coinSpawnChance: 0.5
+  coinHeightVariance: 0
   coinPrefab: {fileID: 1649737714326745555, guid: 62d1c8e796b15eb4eae661eb33f7582c, type: 3}
   maxCoinsPerPlatform: 3
 --- !u!212 &1145769049

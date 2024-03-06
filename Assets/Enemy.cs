@@ -7,13 +7,12 @@ public class Enemy : MonoBehaviour
     public float speed = 1.0f; // Speed at which the enemy moves towards the player
     private Transform player; // Reference to the player's position
 
-    public float selfDestructDistance = 10f;
     Animator animator;
 
     public float attackCooldown = 1.0f; // Time between attacks, in seconds
     private float attackTimer = 0.0f; // Timer to keep track of when the enemy can attack again
     public int attackDamage = 1; // Amount of damage the enemy deals to the player
-    public bool easyMode = false;
+    private bool easyMode = false;
     private bool stopAttacking = false;
     public float attackRange = 1.0f;
 
@@ -22,6 +21,8 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.Find("Knight").transform; // Assuming the player GameObject has the tag "Player"
         animator = GetComponent<Animator>();
+        GameController gameController = GameObject.Find("UI").GetComponent<GameController>();
+        easyMode = gameController.easyMode;
     }
 
     // Update is called once per frame
@@ -29,12 +30,6 @@ public class Enemy : MonoBehaviour
     {
         // Check the distance to the player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        // If the player is more than 20 units away, destroy this enemy
-        if (distanceToPlayer > selfDestructDistance)
-        {
-            Destroy(gameObject);
-            return; // Exit the method early as there's no need to do the rest if the enemy is destroyed
-        }
 
         // If the enemy is more than 1 tile away from the player, move towards the player
         if (distanceToPlayer > attackRange)

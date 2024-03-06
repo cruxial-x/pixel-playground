@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject attackHitbox;
     public float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
+    private bool easyMode = false;
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,19 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         attackHitbox.SetActive(false);
         maxHitPoints = hitPoints;
+        GameController gameController = GameObject.Find("UI").GetComponent<GameController>();
+        easyMode = gameController.easyMode;
+    }
+    void LateUpdate(){
+        if(easyMode)
+        {
+            // Check if the player has fallen off the bottom of the screen
+            if (transform.position.y < -5)
+            {
+                // If so, teleport them to the top of the screen
+                transform.position = new Vector2(transform.position.x, 5);
+            }
+        }
     }
 
     // Update is called once per frame

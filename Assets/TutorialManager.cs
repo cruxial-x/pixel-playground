@@ -30,33 +30,33 @@ public class TutorialManager : MonoBehaviour
     {
         if (rightKey.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetAxis("Horizontal") == 0)
             {
                 rightKeyAnimator.SetBool("Pressed", true);
             }
-            else if (Input.GetKeyUp(KeyCode.RightArrow))
+            else if (Input.GetAxis("Horizontal") != 0)
             {
                 ShowCtrlKey();
             }
         }
         else if (ctrlKey.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetButtonDown("Fire1"))
             {
                 ctrlKeyAnimator.SetBool("Pressed", true);
             }
-            else if (Input.GetKeyUp(KeyCode.LeftControl))
+            else if (Input.GetButtonUp("Fire1"))
             {
                 ShowSpaceKey();
             }
         }
         else if (spaceKey.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Jump"))
             {
                 spaceKeyAnimator.SetBool("Pressed", true);
             }
-            else if (Input.GetKeyUp(KeyCode.Space))
+            else if (Input.GetButtonUp("Jump"))
             {
                 HideTutorial();
             }
@@ -75,6 +75,6 @@ public class TutorialManager : MonoBehaviour
     }
     public void HideTutorial()
     {
-        tutorialPanel.SetActive(false);
+        spaceKey.SetActive(false);
     }
 }

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
     private bool easyMode = false;
+    private GameController gameController;
     
     // Start is called before the first frame update
     void Start()
@@ -33,17 +34,20 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         attackHitbox.SetActive(false);
         maxHitPoints = hitPoints;
-        GameController gameController = GameObject.Find("UI").GetComponent<GameController>();
+        gameController = GameObject.Find("UI").GetComponent<GameController>();
         easyMode = gameController.easyMode;
     }
     void LateUpdate(){
-        if(easyMode)
+        // Check if the player has fallen off the bottom of the screen
+        if (transform.position.y < -5)
         {
-            // Check if the player has fallen off the bottom of the screen
-            if (transform.position.y < -5)
+            if(easyMode)
             {
-                // If so, teleport them to the top of the screen
-                transform.position = new Vector2(transform.position.x, 5);
+            transform.position = new Vector2(transform.position.x, 5);
+            }
+            else
+            {
+                Die();
             }
         }
     }
@@ -176,7 +180,9 @@ public class PlayerController : MonoBehaviour
         // For example, you could play a death animation and then reload the level
         // 
         // For now, we'll just destroy the player GameObject
+        hitPoints = 0;
         Destroy(gameObject);
+        gameController.GameOver();
     }
     public void Stomp()
     {

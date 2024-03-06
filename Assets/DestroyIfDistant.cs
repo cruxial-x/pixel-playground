@@ -17,6 +17,10 @@ public class DestroyIfDistant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!player)
+        {
+            return;
+        }
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         // If the player is more than 20 units away, destroy this enemy
         if (distanceToPlayer > selfDestructDistance)

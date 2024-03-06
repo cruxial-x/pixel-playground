@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         if(flipX)
         {
@@ -43,6 +43,6 @@ public class CameraFollow : MonoBehaviour
             desiredPosition.y = transform.position.y;
         }
         
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
+        transform.position = desiredPosition;
     }
 }

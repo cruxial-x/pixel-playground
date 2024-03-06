@@ -8,31 +8,61 @@ public class TutorialManager : MonoBehaviour
     public GameObject rightKey;
     public GameObject ctrlKey;
     public GameObject spaceKey;
+
+    private Animator rightKeyAnimator;
+    private Animator ctrlKeyAnimator;
+    private Animator spaceKeyAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
         rightKey.SetActive(true);
         ctrlKey.SetActive(false);
         spaceKey.SetActive(false);
+
+        rightKeyAnimator = rightKey.GetComponent<Animator>();
+        ctrlKeyAnimator = ctrlKey.GetComponent<Animator>();
+        spaceKeyAnimator = spaceKey.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (rightKey.activeSelf && Input.GetKeyDown(KeyCode.RightArrow))
+        if (rightKey.activeSelf)
         {
-            ShowCtrlKey();
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                rightKeyAnimator.SetBool("Pressed", true);
+            }
+            else if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                ShowCtrlKey();
+            }
         }
-        else if (ctrlKey.activeSelf && Input.GetKeyDown(KeyCode.LeftControl))
+        else if (ctrlKey.activeSelf)
         {
-            ShowSpaceKey();
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                ctrlKeyAnimator.SetBool("Pressed", true);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                ShowSpaceKey();
+            }
         }
-        else if (spaceKey.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        else if (spaceKey.activeSelf)
         {
-            HideTutorial();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                spaceKeyAnimator.SetBool("Pressed", true);
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                HideTutorial();
+            }
         }
-        
     }
+
     public void ShowCtrlKey()
     {
         rightKey.SetActive(false);

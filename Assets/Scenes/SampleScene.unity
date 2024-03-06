@@ -946,7 +946,6 @@ MonoBehaviour:
   hitPoints: 3
   moveSpeed: 4
   jumpForce: 14
-  bounceMuliplier: 1.5
   restoreDelay: 3
   restoreAmount: 1
   groundCheck: {fileID: 842535207}

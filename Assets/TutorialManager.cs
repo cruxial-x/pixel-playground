@@ -13,6 +13,8 @@ public class TutorialManager : MonoBehaviour
     private Animator ctrlKeyAnimator;
     private Animator spaceKeyAnimator;
 
+    private float defaultPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class TutorialManager : MonoBehaviour
         rightKeyAnimator = rightKey.GetComponent<Animator>();
         ctrlKeyAnimator = ctrlKey.GetComponent<Animator>();
         spaceKeyAnimator = spaceKey.GetComponent<Animator>();
+        defaultPosition = Input.GetAxis("Horizontal");
     }
 
     // Update is called once per frame
@@ -30,11 +33,11 @@ public class TutorialManager : MonoBehaviour
     {
         if (rightKey.activeSelf)
         {
-            if (Input.GetAxis("Horizontal") == 0)
+            if (Input.GetAxis("Horizontal") != defaultPosition)
             {
                 rightKeyAnimator.SetBool("Pressed", true);
             }
-            else if (Input.GetAxis("Horizontal") != 0)
+            else if (Input.GetAxis("Horizontal") == defaultPosition && rightKeyAnimator.GetBool("Pressed"))
             {
                 ShowCtrlKey();
             }
@@ -61,6 +64,12 @@ public class TutorialManager : MonoBehaviour
                 HideTutorial();
             }
         }
+    }
+    public void PlayerIsIdle()
+    {
+        Animator player = GameObject.Find("Knight").GetComponent<Animator>();
+        AnimatorStateInfo stateInfo = player.GetCurrentAnimatorStateInfo(0);
+        Debug.Log(stateInfo);
     }
 
     public void ShowCtrlKey()

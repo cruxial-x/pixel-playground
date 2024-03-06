@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
     private Animator animator;
     public bool isFacingLeft;
-    // public Text coinText;
+    public TMPro.TextMeshProUGUI coinText;
     public int coins = 0;
     public GameObject attackHitbox;
     
@@ -45,7 +44,7 @@ public class PlayerController : MonoBehaviour
         }
         Jump(rb, isGrounded);
         Stomp();
-        // coinText.text = coins.ToString("D2");
+        coinText.text = coins.ToString("D2");
     }
     void OnTriggerEnter2D(Collider2D other)
     {

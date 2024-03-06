@@ -943,6 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b842d1b8757046e4f93abcb038ae61e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitStunDuration: 0.2
   hitPoints: 3
   moveSpeed: 4
   jumpForce: 14

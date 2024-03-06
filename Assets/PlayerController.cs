@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private int maxHitPoints = 3;
+    public float hitStunDuration = 0.5f; // Duration of hitstun in seconds
     public int hitPoints = 3;
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
+        StartCoroutine(Ouch());
         hitPoints -= damage;
         if (hitPoints <= 0)
         {
@@ -113,6 +115,16 @@ public class PlayerController : MonoBehaviour
         }
         lastDamageTime = Time.time; // Update the last damage time
         StartRestore();
+    }
+    IEnumerator Ouch()
+    {
+        animator.SetBool("Ouch", true);
+        // Change the player's color to red
+        GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(hitStunDuration);
+        // Change the player's color back to white
+        GetComponent<SpriteRenderer>().color = Color.white;
+        animator.SetBool("Ouch", false);
     }
     public int GetPlayerHealth()
     {

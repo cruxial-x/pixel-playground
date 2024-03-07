@@ -43,6 +43,17 @@ public class CameraFollow : MonoBehaviour
             desiredPosition.y = transform.position.y;
         }
         
-        transform.position = desiredPosition;
+        // Smoothly move the camera towards the desired position
+        Vector3 velocity = Vector3.zero;
+        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
+
+        // Pixel snapping
+        float pixelsPerUnit = 16f; // Change this to match your game's PPU
+        Vector3 positionInPixels = new Vector3(
+            Mathf.Round(transform.position.x * pixelsPerUnit),
+            Mathf.Round(transform.position.y * pixelsPerUnit),
+            Mathf.Round(transform.position.z * pixelsPerUnit)
+        );
+        transform.position = positionInPixels / pixelsPerUnit;
     }
 }

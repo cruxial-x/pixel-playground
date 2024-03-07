@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
         }
         GetInput();
         Flip();
-        Move(moveSpeed, rb);
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
@@ -74,6 +73,10 @@ public class PlayerController : MonoBehaviour
         Jump(rb);
         Stomp();
         coinText.text = coins.ToString("D2");
+    }
+    void FixedUpdate()
+    {
+        Move(moveSpeed, rb);
     }
     void OnTriggerEnter2D(Collider2D other)
     {

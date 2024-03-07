@@ -18,7 +18,8 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rightKey.SetActive(true);
+        bool hasCompletedTutorial = PlayerPrefs.GetInt("hasCompletedTutorial", 0) == 1;
+        rightKey.SetActive(!hasCompletedTutorial);
         ctrlKey.SetActive(false);
         spaceKey.SetActive(false);
 
@@ -61,6 +62,8 @@ public class TutorialManager : MonoBehaviour
             }
             else if (Input.GetButtonUp("Jump"))
             {
+                PlayerPrefs.SetInt("hasCompletedTutorial", 1);
+                PlayerPrefs.Save();
                 HideTutorial();
             }
         }

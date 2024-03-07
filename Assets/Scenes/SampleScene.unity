@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   easyMode: 0
-  selfDestructDistance: 10
+  selfDestructDistance: 20
   gameOverScreen: {fileID: 37564005}
 --- !u!1 &730153272
 GameObject:

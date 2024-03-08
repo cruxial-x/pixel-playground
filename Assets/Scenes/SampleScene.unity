@@ -650,14 +650,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.3458904
+    width: 0.99999994
+    height: 0.30821916
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 42.4
   orthographic: 0
-  orthographic size: 4
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_UpscaleRT: 0
   m_PixelSnapping: 1
   m_CropFrameX: 0
-  m_CropFrameY: 0
+  m_CropFrameY: 1
   m_StretchFill: 0
 --- !u!114 &519420034
 MonoBehaviour:
@@ -878,8 +878,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.120000005, z: 13}
-  m_LocalScale: {x: 24, y: 24, z: 0.96}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 28.699999, y: 28.699999, z: 1.148}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3428,7 +3428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -88.164955}
+  m_AnchoredPosition: {x: 0, y: -88.16504}
   m_SizeDelta: {x: 0, y: 176.3301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1380742757
@@ -3607,8 +3607,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.02, y: 0.29, z: 14}
-  m_LocalScale: {x: 24, y: 24, z: 0.96}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 28.699999, y: 28.699999, z: 1.148}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3938,8 +3938,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.01, y: -1.34, z: 12}
-  m_LocalScale: {x: 24, y: 24, z: 0.96}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 28.699999, y: 28.699999, z: 1.148}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -19,7 +19,8 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         bool hasCompletedTutorial = PlayerPrefs.GetInt("hasCompletedTutorial", 0) == 1;
-        rightKey.SetActive(!hasCompletedTutorial);
+        // rightKey.SetActive(!hasCompletedTutorial);
+        rightKey.SetActive(false);
         ctrlKey.SetActive(false);
         spaceKey.SetActive(false);
 

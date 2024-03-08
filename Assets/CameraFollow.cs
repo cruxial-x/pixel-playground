@@ -29,6 +29,14 @@ public class CameraFollow : MonoBehaviour
         {
             pixelPerfectCamera.cropFrameY = false;
         }
+        if (Screen.width > Screen.height * 2.5)
+        {
+            pixelPerfectCamera.cropFrameX = true;
+        }
+        else
+        {
+            pixelPerfectCamera.cropFrameX = false;
+        }
     }
 
     // Update is called once per frame

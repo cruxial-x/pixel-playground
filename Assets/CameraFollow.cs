@@ -1,25 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
     public float smoothSpeed = 0.25f;
     public Vector3 offset;
-    private Vector3 velocity = Vector3.zero;
     private PlayerController player;
     public bool lockY = false;
     public bool flipX = false;
+    private PixelPerfectCamera pixelPerfectCamera; // Reference to the PixelPerfectCamera component
+
 
     private void Start()
     {
         player = target.GetComponent<PlayerController>();
+        pixelPerfectCamera = GetComponent<PixelPerfectCamera>();
+    }
+    void CheckAspectRatio()
+    {
+        if (Screen.height > Screen.width)
+        {
+            pixelPerfectCamera.cropFrameY = true;
+        }
+        else
+        {
+            pixelPerfectCamera.cropFrameY = false;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        CheckAspectRatio();
         if(flipX)
         {
             // Check if the player is facing left

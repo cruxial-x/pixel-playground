@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 959835978}
-  smoothSpeed: 0.01
+  smoothSpeed: 0
   offset: {x: 2, y: 1, z: -10}
   lockY: 1
   flipX: 0

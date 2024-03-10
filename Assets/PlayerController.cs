@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -150,8 +151,15 @@ public class PlayerController : MonoBehaviour
     // Basic platformer movement
     public void Move(float moveSpeed, Rigidbody2D rb)
     {
-        rb.velocity = new Vector2(xAxis * moveSpeed, rb.velocity.y);
         animator.SetBool("Walking", xAxis != 0 && coyoteTimeCounter > 0);
+
+        rb.velocity = new Vector2(xAxis * moveSpeed, rb.velocity.y);
+
+        float pixelsPerUnit = 16f;
+        Vector2 pos = rb.position;
+        pos.x = MathF.Round(pos.x * pixelsPerUnit) / pixelsPerUnit;
+        pos.y = MathF.Round(pos.y * pixelsPerUnit) / pixelsPerUnit;
+        rb.position = pos;
     }
     public void TakeDamage(int damage)
     {

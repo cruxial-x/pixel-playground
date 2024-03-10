@@ -72,11 +72,9 @@ public class CameraFollow : MonoBehaviour
         float posY = Mathf.SmoothDamp(transform.position.y, desiredPosition.y, ref velocity.y, smoothSpeed);
 
         // Pixel snapping
-        float pixelsPerUnit = 16f; // Change this to match your game's PPU
-        float ppuPosX = Mathf.RoundToInt(posX * pixelsPerUnit) / pixelsPerUnit;
-        float ppuPosY = Mathf.RoundToInt(posY * pixelsPerUnit) / pixelsPerUnit;
+        Vector2 snappedPos = PixelSnapper.SnapToPixelGrid(new Vector2(posX, posY));
 
         // Set the camera's position
-        transform.position = new Vector3(ppuPosX, ppuPosY, transform.position.z);
+        transform.position = new Vector3(snappedPos.x, snappedPos.y, transform.position.z);
     }
 }

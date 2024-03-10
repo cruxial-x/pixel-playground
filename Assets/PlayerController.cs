@@ -155,11 +155,7 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector2(xAxis * moveSpeed, rb.velocity.y);
 
-        float pixelsPerUnit = 16f;
-        Vector2 pos = rb.position;
-        pos.x = MathF.Round(pos.x * pixelsPerUnit) / pixelsPerUnit;
-        pos.y = MathF.Round(pos.y * pixelsPerUnit) / pixelsPerUnit;
-        rb.position = pos;
+        rb.position = PixelSnapper.SnapToPixelGrid(rb.position);
     }
     public void TakeDamage(int damage)
     {

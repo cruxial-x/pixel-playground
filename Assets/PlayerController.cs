@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -69,6 +70,12 @@ public class PlayerController : MonoBehaviour
         Flip();
         if (Input.GetButtonDown("Fire1"))
         {
+            // Check if the pointer is over a UI element
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // If it is, ignore this touch
+                return;
+            }
             Attack();
         }
         StartJump(rb);
@@ -95,7 +102,29 @@ public class PlayerController : MonoBehaviour
     }
     void GetInput()
     {
-        xAxis = Input.GetAxis("Horizontal");
+        // Only get the horizontal axis input if no button is being pressed and no keyboard key is being pressed
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            xAxis = Input.GetAxis("Horizontal");
+        }
+    }
+    // Call this method when the left button is pressed
+    public void OnLeftButtonPressed()
+    {
+        Debug.Log("Left button pressed");
+        xAxis = -1;
+    }
+
+    // Call this method when the right button is pressed
+    public void OnRightButtonPressed()
+    {
+        xAxis = 1;
+    }
+
+    // Call this method when either button is released
+    public void OnButtonReleased()
+    {
+        xAxis = 0;
     }
     public void StartRestore()
     {

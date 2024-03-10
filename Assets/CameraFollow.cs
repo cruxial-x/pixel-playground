@@ -12,6 +12,7 @@ public class CameraFollow : MonoBehaviour
     public bool lockY = false;
     public bool flipX = false;
     private PixelPerfectCamera pixelPerfectCamera; // Reference to the PixelPerfectCamera component
+    public GameObject touchMovement;
 
 
     private void Start()
@@ -24,10 +25,12 @@ public class CameraFollow : MonoBehaviour
         if (Screen.height > Screen.width)
         {
             pixelPerfectCamera.cropFrameY = true;
+            touchMovement.SetActive(true);
         }
         else
         {
             pixelPerfectCamera.cropFrameY = false;
+            touchMovement.SetActive(false);
         }
         if (Screen.width > Screen.height * 2.5)
         {

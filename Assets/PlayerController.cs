@@ -70,7 +70,8 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
         }
-        Jump(rb);
+        StartJump(rb);
+        EndJump(rb);
         Stomp();
         coinText.text = coins.ToString("D2");
     }
@@ -201,12 +202,16 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void Jump(Rigidbody2D rb)
+    public void StartJump(Rigidbody2D rb)
     {
         if (Input.GetButtonDown("Jump") && coyoteTimeCounter > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+    }
+
+    public void EndJump(Rigidbody2D rb)
+    {
         // Half vertical velocity when jump button is released
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
         {

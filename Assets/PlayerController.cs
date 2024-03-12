@@ -104,52 +104,47 @@ public class PlayerController : MonoBehaviour
     }
     void GetInput()
     {
-        // Only get the horizontal axis input if no button is being pressed and no keyboard key is being pressed
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            xAxis = Input.GetAxis("Horizontal");
-        }
+        xAxis = Input.GetAxis("Horizontal");
     }
-    // Call this method when the left button is pressed
-    public void OnLeftButtonPressed()
-    {
-        Debug.Log("Left button pressed");
-        xAxis = -1;
-    }
+    // // Call this method when the left button is pressed
+    // public void OnLeftButtonPressed()
+    // {
+    //     Debug.Log("Left button pressed");
+    //     xAxis = -1;
+    // }
+    // // Call this method when the right button is pressed
+    // public void OnRightButtonPressed()
+    // {
+    //     xAxis = 1;
+    // }
+    // public void OnJumpButtonPressed()
+    // {
+    //     touchJump = true;
+    //     touchJumpReleased = false;
+    // }
+    // public void OnJumpButtonRelease()
+    // {
+    //     StartCoroutine(JumpReleaseFix());
+    // }
+    // private IEnumerator JumpReleaseFix()
+    // {
+    //     // Wait for a small amount of time
+    //     yield return new WaitForSeconds(0.05f);
 
-    // Call this method when the right button is pressed
-    public void OnRightButtonPressed()
-    {
-        xAxis = 1;
-    }
-    public void OnJumpButtonPressed()
-    {
-        touchJump = true;
-        touchJumpReleased = false;
-    }
-    public void OnJumpButtonRelease()
-    {
-        StartCoroutine(JumpReleaseFix());
-    }
-    private IEnumerator JumpReleaseFix()
-    {
-        // Wait for a small amount of time
-        yield return new WaitForSeconds(0.05f);
+    //     // Then, set touchJump and touchJumpReleased to false
+    //     touchJump = false;
+    //     touchJumpReleased = true;
+    // }
+    // public void OnAttackButtonPressed()
+    // {
+    //     Attack();
+    // }
 
-        // Then, set touchJump and touchJumpReleased to false
-        touchJump = false;
-        touchJumpReleased = true;
-    }
-    public void OnAttackButtonPressed()
-    {
-        Attack();
-    }
-
-    // Call this method when either button is released
-    public void OnButtonReleased()
-    {
-        xAxis = 0;
-    }
+    // // Call this method when either button is released
+    // public void OnButtonReleased()
+    // {
+    //     xAxis = 0;
+    // }
     public void StartRestore()
     {
         StopCoroutine("RestoreAfterDelay"); // Stop any existing restore process

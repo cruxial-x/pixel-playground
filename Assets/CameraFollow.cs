@@ -69,7 +69,7 @@ public class CameraFollow : MonoBehaviour
         if (lockY)
         {
             // Lock the y value of desiredPosition to the current camera position
-            desiredPosition.y = transform.position.y;
+            desiredPosition.y = offset.y;
         }
         
         // Smoothly move the camera towards the desired position

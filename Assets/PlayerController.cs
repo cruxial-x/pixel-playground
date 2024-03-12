@@ -23,23 +23,30 @@ public class PlayerController : MonoBehaviour
     public bool isFacingLeft;
     public TMPro.TextMeshProUGUI coinText;
     public int coins = 0;
-    public GameObject attackHitbox;
     public float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
     private bool easyMode = false;
     private GameController gameController;
     private bool touchJump;
     private bool touchJumpReleased;
+    public Transform attackPoint;
+    public Vector2 attackArea;
+    public float timeBetweenAttack = 0.2f;
+    private float timeSinceLastAttack;
+    private bool attack = false;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        attackHitbox.SetActive(false);
         maxHitPoints = hitPoints;
         gameController = GameObject.Find("UI").GetComponent<GameController>();
         easyMode = gameController.easyMode;
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(attackPoint.position, attackArea);
     }
     void LateUpdate(){
         // Check if the player has fallen off the bottom of the screen
@@ -70,16 +77,7 @@ public class PlayerController : MonoBehaviour
         }
         GetInput();
         Flip();
-        if (Input.GetButtonDown("Fire1"))
-        {
-            // Check if the pointer is over a UI element
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                // If it is, ignore this touch
-                return;
-            }
-            Attack();
-        }
+        Attack();
         StartJump(rb);
         EndJump(rb);
         Stomp();
@@ -105,46 +103,8 @@ public class PlayerController : MonoBehaviour
     void GetInput()
     {
         xAxis = Input.GetAxis("Horizontal");
+        attack = Input.GetButtonDown("Fire1");
     }
-    // // Call this method when the left button is pressed
-    // public void OnLeftButtonPressed()
-    // {
-    //     Debug.Log("Left button pressed");
-    //     xAxis = -1;
-    // }
-    // // Call this method when the right button is pressed
-    // public void OnRightButtonPressed()
-    // {
-    //     xAxis = 1;
-    // }
-    // public void OnJumpButtonPressed()
-    // {
-    //     touchJump = true;
-    //     touchJumpReleased = false;
-    // }
-    // public void OnJumpButtonRelease()
-    // {
-    //     StartCoroutine(JumpReleaseFix());
-    // }
-    // private IEnumerator JumpReleaseFix()
-    // {
-    //     // Wait for a small amount of time
-    //     yield return new WaitForSeconds(0.05f);
-
-    //     // Then, set touchJump and touchJumpReleased to false
-    //     touchJump = false;
-    //     touchJumpReleased = true;
-    // }
-    // public void OnAttackButtonPressed()
-    // {
-    //     Attack();
-    // }
-
-    // // Call this method when either button is released
-    // public void OnButtonReleased()
-    // {
-    //     xAxis = 0;
-    // }
     public void StartRestore()
     {
         StopCoroutine("RestoreAfterDelay"); // Stop any existing restore process
@@ -183,18 +143,26 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        animator.SetTrigger("Attack");
-        StartCoroutine(EnableHitboxDuringAttack());
+        timeSinceLastAttack += Time.deltaTime;
+        if(timeSinceLastAttack >= timeBetweenAttack && attack)
+        {
+            animator.SetTrigger("Attack");
+            timeSinceLastAttack = 0;
+        }
     }
-
-    IEnumerator EnableHitboxDuringAttack()
+    #pragma warning disable IDE0051 // Used in Knight_Attacking animation event
+    private void Hit()
     {
-        yield return new WaitForSeconds(0.2f);
-        attackHitbox.SetActive(true);
-        yield return new WaitForSeconds(0.5f); // Adjust this to match the duration of the attack animation
-        attackHitbox.SetActive(false);
-        animator.ResetTrigger("Attack");
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(attackPoint.position, attackArea, 0);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.CompareTag("Enemy"))
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
     }
+    #pragma warning restore IDE0051
 
     // Basic platformer movement
     public void Move(float moveSpeed, Rigidbody2D rb)

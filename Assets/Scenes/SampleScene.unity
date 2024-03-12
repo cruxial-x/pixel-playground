@@ -825,7 +825,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0ac73139dfe2e049bd0253f61c582bc, type: 3}
   m_Name: 
@@ -835,8 +835,6 @@ MonoBehaviour:
   offset: {x: 2, y: 1, z: -10}
   lockY: 1
   flipX: 0
-  touchMovement: {fileID: 568934116}
-  touchActions: {fileID: 985280315}
 --- !u!1 &546553098
 GameObject:
   m_ObjectHideFlags: 0
